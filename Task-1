@@ -1,0 +1,97 @@
+/*my task in internship Task-1*/
+
+
+
+
+#include <iostream>
+#include <vector>
+
+
+void displayBoard(const std::vector<char>& board) {
+    std::cout << "-------------" << std::endl;
+    for (int i = 0; i < 9; i += 3) {
+        std::cout << "| " << board[i] << " | " << board[i + 1] << " | " << board[i + 2] << " |" << std::endl;
+        std::cout << "-------------" << std::endl;
+    }
+}
+
+
+bool checkWin(const std::vector<char>& board, char player) {
+    // Check rows
+    for (int i = 0; i < 9; i += 3) {
+        if (board[i] == player && board[i + 1] == player && board[i + 2] == player) {
+            return true;
+        }
+    }
+    
+    for (int i = 0; i < 3; i++) {
+        if (board[i] == player && board[i + 3] == player && board[i + 6] == player) {
+            return true;
+        }
+    }
+    
+    if (board[0] == player && board[4] == player && board[8] == player) {
+        return true;
+    }
+    if (board[2] == player && board[4] == player && board[6] == player) {
+        return true;
+    }
+    return false;
+}
+
+
+bool checkDraw(const std::vector<char>& board) {
+    for (char c : board) {
+        if (c == ' ') {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    std::vector<char> board(9, ' ');
+    char currentPlayer = 'X';
+
+    while (true) {
+        displayBoard(board);
+        std::cout << "Player " << currentPlayer << ", enter your move (1-9): ";
+        int move;
+        std::cin >> move;
+
+        if (move < 1 || move > 9 || board[move - 1] != ' ') {
+            std::cout << "Invalid move. Please try again." << std::endl;
+            continue;
+        }
+
+        board[move - 1] = currentPlayer;
+
+        if (checkWin(board, currentPlayer)) {
+            displayBoard(board);
+            std::cout << "Player " << currentPlayer << " wins!" << std::endl;
+            break;
+        }
+
+        if (checkDraw(board)) {
+            displayBoard(board);
+            std::cout << "It's a draw!" << std::endl;
+            break;
+        }
+
+        if (currentPlayer == 'X') {
+            currentPlayer = 'O';
+        } else {
+            currentPlayer = 'X';
+        }
+    }
+
+    std::cout << "Do you want to play again? (y/n) ";
+    char playAgain;
+    std::cin >> playAgain;
+
+    if (playAgain == 'y') {
+        return main();
+    } else {
+        return 0;
+    }
+}
