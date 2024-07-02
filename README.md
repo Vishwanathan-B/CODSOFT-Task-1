@@ -1,1 +1,3 @@
-# CODSOFT-Task-1
+Name : VISHWANTHAN B
+Domain :C++ internship
+Duration : June - July (2024)
